@@ -83,21 +83,28 @@ class UserController extends Controller
     {
         //
     }
+
+
+
     public function submit(Request $req){
-        $user= new User();
-        $user->name = $req->input('firstname');
-        $user->lastname = $req->input('lastname');
-        $user->phone = $req->input('phone');
-        $user->email = $req->input('email');
+        $user = User::create([
+            'name' => $req->input('firstname'),
+            'lastname' => $req->input('lastname'),
+            'phone' => $req->input('phone'),
+            'email' => $req->input('email'),
+            'address_id' =>7,
+        ]);
 
-        $address = new Address();
-        $address->street_address = $req ->input('streetaddress');
-        $address->street_address_line2 = $req ->input('streetaddressline2');
-        $address->city = $req ->input('city');
-        $address->state = $req ->input('state');
-        $address->postal = $req ->input('postal');
+        $address = Address::create([
+            'user_id'=>$user->id,
+            'street_address'=> $req ->input('streetaddress'),
+            'street_address_line2'=> $req ->input('streetaddressline2'),
+            'city'=> $req ->input('city'),
+            'state'=> $req ->input('state'),
+            'postal'=> $req ->input('postal'),
+        ]);
 
-        $user->address = $address;
+        $user->address_id = $address->id;
 
         $user->save();
     }
